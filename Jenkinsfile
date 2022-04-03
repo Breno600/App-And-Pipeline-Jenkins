@@ -35,7 +35,7 @@ pipeline {
       }
     }
     
-    stage('Approve QA Deployment') {
+    stage('Approve Deploy to HML?') {
       when {
         beforeAgent true
         anyOf {
@@ -65,7 +65,7 @@ pipeline {
       }
     }
     
-    stage('Deploy homolog K3S') {
+    stage('Deploy HML K3S') {
       when{
         beforeAgent true
         anyOf {
@@ -74,7 +74,7 @@ pipeline {
         expression { return ( userInput == true ) }
       }
       steps{
-        sh "Deu bom carai"
+        sh "k3s kubectl get nodes"
       }
     }
     
