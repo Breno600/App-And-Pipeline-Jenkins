@@ -74,7 +74,7 @@ pipeline {
         expression { return ( userInput == true ) }
       }
       steps{
-        sh "echo "Deu bom carai""
+        sh "Deu bom carai"
       }
     }
     
