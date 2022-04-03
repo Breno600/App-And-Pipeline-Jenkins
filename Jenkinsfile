@@ -1,7 +1,7 @@
 pipeline {
   environment {
     registry = "breno600/labs-frontend"
-    registryCredential = '1010'
+    registryCredential = 'docker-login'
     dockerImage = ''
   }
   agent any
