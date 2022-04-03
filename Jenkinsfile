@@ -34,5 +34,49 @@ pipeline {
         sh "ls"
       }
     }
+    
+    stage('Approve QA Deployment') {
+      when {
+        beforeAgent true
+        anyOf {
+          branch "master"
+        }
+      }
+      options {
+        timeout(time: 7, unit: 'DAYS')
+      }
+      steps{
+        script {
+          timeout(time: 7, unit: 'DAYS') {
+            userInput = input(
+              id: 'Proceed1', message: 'Was this successful?', parameters: [
+                [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Confirm deploy?']
+              ])
+          }
+        }
+      }
+      post {
+        success {
+          echo "Approved by "
+        }
+        aborted {
+          echo "Declined by "
+        }
+      }
+    }
+    
+    stage('Deploy homolog K3S') {
+      when{
+        beforeAgent true
+        anyOf {
+          branch "master"
+        }
+        expression { return ( userInput == true ) }
+      }
+      steps{
+        sh "echo "Deu bom carai""
+      }
+    }
+    
   }
 }
