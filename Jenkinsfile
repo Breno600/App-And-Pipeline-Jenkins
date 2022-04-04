@@ -74,7 +74,12 @@ pipeline {
         expression { return ( userInput == true ) }
       }
       steps{
-        sh "k3s kubectl get nodes"
+        sh '''
+          apt-get update
+          apt-get upgrade -y
+          apt get install sshpass -y
+          sshpass -p 'breno123' ssh pro@192.168.0.14 './script_deploy.sh'
+          '''
       }
     }
     
