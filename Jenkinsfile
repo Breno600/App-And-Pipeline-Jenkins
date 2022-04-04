@@ -30,7 +30,7 @@ pipeline {
     stage('Remove Unused docker image') {
       steps{
         sh "docker rmi $registry:$BUILD_NUMBER"
-        sh "pwd"
+        sh "curl https://127.0.0.1:6443"
         sh "ls"
       }
     }
