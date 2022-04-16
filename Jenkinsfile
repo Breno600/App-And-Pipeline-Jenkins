@@ -14,7 +14,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          dockerImage = docker.build registry + ":local-$BUILD_NUMBER"
         }
       }
     }
@@ -27,15 +27,8 @@ pipeline {
         }
       }
     }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
-        sh "curl https://127.0.0.1:6443"
-        sh "ls"
-      }
-    }
     
-    stage('Approve Deploy to HML?') {
+    stage('Approve Start App Local?') {
       when {
         beforeAgent true
         anyOf {
@@ -65,7 +58,7 @@ pipeline {
       }
     }
     
-    stage('Deploy HML K3S') {
+    stage('Upping App') {
       when{
         beforeAgent true
         anyOf {
@@ -75,10 +68,7 @@ pipeline {
       }
       steps{
         sh '''
-          apt-get update
-          apt-get upgrade -y
-          apt get install sshpass -y
-          sshpass -p 'breno123' ssh pro@192.168.0.14 './script_deploy.sh'
+          docker run -p 80:80 labs-frontend:local-$BUILD_NUMBER
           '''
       }
     }
