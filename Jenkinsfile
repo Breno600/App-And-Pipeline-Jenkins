@@ -68,7 +68,7 @@ pipeline {
       }
       steps{
         sh '''
-          docker run -p 80:80 breno600/labs-frontend:local-$BUILD_NUMBER
+          docker run -p 80:80 -d breno600/labs-frontend:local-$BUILD_NUMBER
           '''
       }
     }
